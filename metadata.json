@@ -1,0 +1,5 @@
+{
+  "name": "AI 智能记账本",
+  "description": "一个基于 Google Gemini 的智能记账应用，支持自然语言输入，自动分类与分析您的收支情况。",
+  "requestFramePermissions": []
+}

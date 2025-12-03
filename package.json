@@ -1,0 +1,44 @@
+{
+  "name": "ai-智能记账本",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:full": "wrangler pages dev --proxy 3000 -- pnpm dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply ai-accounting-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply ai-accounting-db --remote"
+  },
+  "dependencies": {
+    "@google/genai": "^1.30.0",
+    "@hono/zod-validator": "^0.7.5",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.44.7",
+    "framer-motion": "^12.23.25",
+    "hono": "^4.10.7",
+    "lucide-react": "^0.555.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.10.0",
+    "recharts": "^3.5.1",
+    "tailwind-merge": "^3.4.0",
+    "xlsx": "^0.18.5",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251202.0",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.22",
+    "drizzle-kit": "^0.31.7",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0",
+    "wrangler": "^4.51.0"
+  }
+}

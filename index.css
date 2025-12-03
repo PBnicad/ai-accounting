@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AI 记账应用全局样式 */
+
+body {
+  font-family: 'Fredoka', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #fffdf5; /* Retro Cream */
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Retro Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #fffdf5;
+  border-left: 2px solid #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #fbbf24;
+  border: 2px solid #000;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}
+
+/* Neo-Retro Utility Classes */
+.retro-card {
+  background-color: white;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px 0px #000;
+  border-radius: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.retro-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px #000;
+}
+
+.retro-btn {
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px 0px #000;
+  transition: all 0.1s;
+}
+
+.retro-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #000;
+}
+
+.retro-input {
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+}
+.retro-input:focus {
+  box-shadow: 4px 4px 0px 0px #8b5cf6;
+  outline: none;
+  border-color: #000;
+}

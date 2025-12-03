@@ -1,0 +1,9 @@
+name = "ai-accounting"
+compatibility_date = "2024-04-01"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ai-accounting-db"
+database_id = "b496f28f-6138-4703-8084-e1a966a90638"
+migrations_dir = "drizzle"

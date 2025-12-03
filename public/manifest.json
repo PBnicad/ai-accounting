@@ -1,0 +1,17 @@
+{
+  "name": "AI 智能记账本",
+  "short_name": "AI记账",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffdf5",
+  "theme_color": "#fffdf5",
+  "description": "基于 AI 的智能记账助手",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
