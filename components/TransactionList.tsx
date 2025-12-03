@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Transaction } from '../types';
 import { formatCurrency, formatDate } from '../utils';
+import { RetroConfirmModal } from './RetroConfirmModal';
 import { Trash2, ShoppingCart, Coffee, Car, Home, Stethoscope, Briefcase, DollarSign, CreditCard, Search, Tag, Edit } from 'lucide-react';
 
 interface Props {
@@ -26,6 +27,7 @@ const getCategoryIcon = (category: string) => {
 
 export const TransactionList: React.FC<Props> = ({ transactions, onDelete, onEdit, enableSearch = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // Filter transactions based on search term (fuzzy-ish)
   const filteredTransactions = transactions.filter(t => {
@@ -117,7 +119,7 @@ export const TransactionList: React.FC<Props> = ({ transactions, onDelete, onEdi
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => onDelete(t.id)}
+                        onClick={() => setDeleteId(t.id)}
                         className="w-8 h-8 flex items-center justify-center rounded-lg border-2 border-black bg-white text-gray-700 hover:bg-red-100 hover:text-red-700 transition-all"
                         title="删除"
                       >
@@ -131,6 +133,21 @@ export const TransactionList: React.FC<Props> = ({ transactions, onDelete, onEdi
           ))}
         </div>
       )}
+
+      <RetroConfirmModal
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={() => {
+          if (deleteId) {
+            onDelete(deleteId);
+            setDeleteId(null);
+          }
+        }}
+        title="确认删除"
+        message="确定要删除这条记账记录吗？删除后无法恢复。"
+        confirmText="删除"
+        type="danger"
+      />
     </div>
   );
 };

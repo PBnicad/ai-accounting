@@ -1,6 +1,7 @@
 
 import React, { useRef, useState } from 'react';
 import { Download, Upload, FileSpreadsheet, AlertCircle, CheckCircle, Database, LogOut } from 'lucide-react';
+import { RetroConfirmModal } from './RetroConfirmModal';
 import { Transaction } from '../types';
 import { exportTransactionsToExcel, parseExcelFile } from '../services/excelService';
 
@@ -14,6 +15,7 @@ export const DataManagement: React.FC<Props> = ({ transactions, onImport, onLogo
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importStatus, setImportStatus] = useState<'IDLE' | 'PROCESSING' | 'SUCCESS' | 'ERROR'>('IDLE');
   const [message, setMessage] = useState('');
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleExport = () => {
     const success = exportTransactionsToExcel(transactions);
@@ -118,7 +120,7 @@ export const DataManagement: React.FC<Props> = ({ transactions, onImport, onLogo
                  <p className="text-gray-500 text-sm mt-2">安全地退出您的账户。</p>
                </div>
                <button 
-                 onClick={onLogout}
+                 onClick={() => setShowLogoutConfirm(true)}
                  className="retro-btn w-full md:w-64 bg-red-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-red-600 flex items-center justify-center gap-2"
                >
                  <LogOut className="w-5 h-5" />
@@ -153,6 +155,19 @@ export const DataManagement: React.FC<Props> = ({ transactions, onImport, onLogo
            <li>日期格式建议为 YYYY-MM-DD</li>
          </ul>
        </div>
+
+       <RetroConfirmModal
+         isOpen={showLogoutConfirm}
+         onClose={() => setShowLogoutConfirm(false)}
+         onConfirm={() => {
+           if (onLogout) onLogout();
+           setShowLogoutConfirm(false);
+         }}
+         title="确认退出"
+         message="确定要退出当前账号吗？"
+         confirmText="退出登录"
+         type="danger"
+       />
     </div>
   );
 };
