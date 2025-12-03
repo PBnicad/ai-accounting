@@ -3,6 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Tech Stack](https://img.shields.io/badge/stack-React%20%7C%20Hono%20%7C%20Cloudflare-orange.svg)
 
+
 AI 驱动的智能记账助手，支持自然语言/图片记账、自动分类、图表分析，让每一分钱都清晰可见。
 
 ![App Preview](public/page1.jpeg)
@@ -52,7 +53,7 @@ AI 驱动的智能记账助手，支持自然语言/图片记账、自动分类�
    GITHUB_CLIENT_ID=your_github_client_id
    GITHUB_CLIENT_SECRET=your_github_client_secret
    ```
-   > 注意：本地开发需要配置 GitHub OAuth App，回调地址设为 `http://localhost:5173/api/auth/callback` (如果使用 `wrangler pages dev`)
+   > 注意：需要配置 GitHub OAuth App，回调地址设为 `http://yourhost/api/auth/callback` (如果使用 `wrangler pages dev`)
 
 4. **初始化数据库**
    ```bash
