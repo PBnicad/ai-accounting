@@ -37,7 +37,7 @@ AI 驱动的智能记账助手，支持自然语言/图片记账、自动分类�
 
 1. **克隆项目**
    ```bash
-   git clone https://github.com/your-username/ai-accounting.git
+   git clone https://github.com/PBnicad/ai-accounting.git
    cd ai-accounting
    ```
 
