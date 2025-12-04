@@ -44,3 +44,17 @@ export const deleteTransaction = async (id: string): Promise<void> => {
     throw new Error('Failed to delete transaction');
   }
 };
+
+export const fetchAIReport = async (type: 'weekly' | 'monthly', date: string): Promise<{ report: string }> => {
+  const res = await fetch('/api/ai/report', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ type, date }),
+  });
+  if (!res.ok) {
+    throw new Error('Failed to generate report');
+  }
+  return res.json();
+};

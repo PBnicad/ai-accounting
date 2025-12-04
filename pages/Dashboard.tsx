@@ -9,7 +9,8 @@ import { Charts } from '../components/Charts';
 import { CalendarView } from '../components/CalendarView';
 import { DayDetailView } from '../components/DayDetailView';
 import { DataManagement } from '../components/DataManagement';
-import { Plus, LayoutDashboard, History, CalendarDays, Wallet, Settings, X, LogOut } from 'lucide-react';
+import { AIReportView } from '../components/AIReportView';
+import { Plus, LayoutDashboard, History, CalendarDays, Wallet, Settings, X, LogOut, Sparkles, ChevronRight } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -227,6 +228,13 @@ const Dashboard: React.FC = () => {
                 colorClass="cyan"
               />
               <NavButton 
+                active={view === AppView.REPORT} 
+                label="AI周报" 
+                icon={Sparkles} 
+                onClick={() => setView(AppView.REPORT)} 
+                colorClass="yellow"
+              />
+              <NavButton 
                 active={view === AppView.SETTINGS} 
                 label="设置" 
                 icon={Settings} 
@@ -286,6 +294,26 @@ const Dashboard: React.FC = () => {
         {view === AppView.DASHBOARD && (
           <div className="space-y-6 animate-in fade-in duration-500">
             <SummaryCards stats={stats} />
+            
+            {/* AI Report Card */}
+            <div 
+              className="bg-gradient-to-r from-yellow-200 to-orange-200 border-2 border-black rounded-xl p-4 shadow-[4px_4px_0px_0px_black] flex items-center justify-between cursor-pointer hover:translate-y-[-2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_black] transition-all" 
+              onClick={() => setView(AppView.REPORT)}
+            >
+              <div className="flex items-center gap-4">
+                <div className="bg-white p-3 rounded-lg border-2 border-black shadow-[2px_2px_0px_0px_black]">
+                  <Sparkles className="w-6 h-6 text-yellow-500" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-gray-900">AI 智能分析周报</h3>
+                  <p className="text-sm font-medium text-gray-700">让 AI 帮你总结消费习惯，提供省钱建议</p>
+                </div>
+              </div>
+              <div className="bg-white/50 p-2 rounded-full border-2 border-black">
+                <ChevronRight className="w-5 h-5 text-black" />
+              </div>
+            </div>
+
             <Charts transactions={transactions} />
             <div>
               <div className="flex items-center justify-between mb-4 px-2">
@@ -349,6 +377,13 @@ const Dashboard: React.FC = () => {
               onEdit={handleEditTransaction}
               enableSearch={true}
             />
+          </div>
+        )}
+
+        {/* AI Report View */}
+        {view === AppView.REPORT && (
+          <div className="animate-in slide-in-from-right-8 duration-300">
+            <AIReportView onBack={() => setView(AppView.DASHBOARD)} />
           </div>
         )}
 

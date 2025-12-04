@@ -23,5 +23,6 @@ export enum AppView {
   CALENDAR = 'CALENDAR',
   DAY_DETAIL = 'DAY_DETAIL',
   ADD = 'ADD',
-  SETTINGS = 'SETTINGS'
+  SETTINGS = 'SETTINGS',
+  REPORT = 'REPORT'
 }

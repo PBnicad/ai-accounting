@@ -346,6 +346,132 @@ api.post('/ai/parse', async (c) => {
   }
 });
 
+// --- AI Report Route ---
+
+const getDateRange = (type: 'weekly' | 'monthly', dateStr: string) => {
+  const date = new Date(dateStr);
+  // Reset to start of day to avoid timezone shifts causing issues if not handled carefully, 
+  // but for "local time" logic, we just need to find the boundary dates.
+  // We will return YYYY-MM-DD strings.
+  
+  let start = new Date(date);
+  let end = new Date(date);
+
+  if (type === 'weekly') {
+    // Monday as start
+    const day = start.getDay();
+    const diff = start.getDate() - day + (day === 0 ? -6 : 1);
+    start.setDate(diff);
+    end.setDate(start.getDate() + 6);
+  } else {
+    // Start of month
+    start.setDate(1);
+    // End of month
+    end.setMonth(end.getMonth() + 1);
+    end.setDate(0);
+  }
+  
+  return { 
+    startStr: start.toISOString().split('T')[0], 
+    endStr: end.toISOString().split('T')[0] 
+  };
+};
+
+api.post('/ai/report', async (c) => {
+  const user = c.get('user');
+  if (!user) return c.json({ error: 'Unauthorized' }, 401);
+
+  const { type, date } = await c.req.json<{ type: 'weekly' | 'monthly', date: string }>();
+  
+  if (!['weekly', 'monthly'].includes(type) || !date) {
+    return c.json({ error: 'Invalid parameters' }, 400);
+  }
+
+  const { startStr, endStr } = getDateRange(type, date);
+
+  const db = drizzle(c.env.DB);
+  
+  // Fetch all user transactions (optimizable later with date filtering in SQL)
+  const allTransactions = await db.select()
+    .from(transactions)
+    .where(eq(transactions.userId, user.id))
+    .orderBy(desc(transactions.date));
+    
+  // Filter in JS
+  const periodTransactions = allTransactions.filter(t => t.date >= startStr && t.date <= endStr);
+
+  if (periodTransactions.length === 0) {
+     return c.json({ report: '该时间段内没有记账记录，无法生成报告。请先记几笔账吧！' });
+  }
+
+  // Aggregate Data
+  const totalIncome = periodTransactions.filter(t => t.type === 'INCOME').reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = periodTransactions.filter(t => t.type === 'EXPENSE').reduce((sum, t) => sum + t.amount, 0);
+  const balance = totalIncome - totalExpense;
+  
+  const categoryStats: Record<string, number> = {};
+  periodTransactions.filter(t => t.type === 'EXPENSE').forEach(t => {
+    categoryStats[t.category] = (categoryStats[t.category] || 0) + t.amount;
+  });
+  
+  const topCategories = Object.entries(categoryStats)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([cat, amount]) => `${cat}: ${amount.toFixed(2)}`)
+    .join(', ');
+
+  const prompt = `
+    Role: Financial Advisor (AI 记账助手).
+    Task: Generate a ${type === 'weekly' ? 'Weekly' : 'Monthly'} Financial Report for the user.
+    Language: Chinese (Simplified).
+    Tone: Professional, encouraging, helpful, and slightly witty (Retro style).
+
+    Data:
+    - Period: ${startStr} to ${endStr}
+    - Total Income: ${totalIncome.toFixed(2)}
+    - Total Expense: ${totalExpense.toFixed(2)}
+    - Net Balance: ${balance.toFixed(2)}
+    - Top Expense Categories: ${topCategories || 'None'}
+    - Transaction Count: ${periodTransactions.length}
+
+    Requirements:
+    1. **Overview**: Briefly summarize the financial situation.
+    2. **Analysis**: Analyze the spending habits. Is the user spending too much on specific categories?
+    3. **Advice**: Give 3 specific, actionable tips based on the data to improve financial health.
+    4. **Formatting**: Use Markdown (bolding, lists) for readability. Do NOT output JSON. Output raw Markdown text.
+  `;
+
+  // Call AI
+  const apiKey = c.env.GLM_API_KEY;
+  try {
+    const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'glm-4-flash',
+          messages: [
+              { role: 'system', content: 'You are a helpful financial advisor.' },
+              { role: 'user', content: prompt }
+          ],
+          temperature: 0.7,
+        })
+      });
+
+      const data: any = await response.json();
+      const content = data.choices?.[0]?.message?.content;
+
+      if (!content) return c.json({ error: 'Failed to generate report' }, 500);
+
+      return c.json({ report: content });
+  } catch (error) {
+      console.error("AI Report Error:", error);
+      return c.json({ error: 'AI Service Failed' }, 500);
+  }
+});
+
 app.route('/api', api);
 
 export const onRequest = handle(app);
