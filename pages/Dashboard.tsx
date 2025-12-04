@@ -364,7 +364,7 @@ const Dashboard: React.FC = () => {
       </main>
 
       {/* Mobile Bottom Navigation Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black px-4 pt-2 pb-5 z-40 flex justify-between items-end shadow-[0px_-4px_0px_0px_rgba(0,0,0,0.05)]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-black px-4 pt-2 pb-2 z-40 flex justify-between items-end shadow-[0px_-4px_0px_0px_rgba(0,0,0,0.05)]">
         <MobileNavItem 
           active={view === AppView.DASHBOARD} 
           label="概览" 
