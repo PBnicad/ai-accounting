@@ -461,9 +461,12 @@ api.post('/ai/report', async (c) => {
       });
 
       const data: any = await response.json();
-      const content = data.choices?.[0]?.message?.content;
+      let content = data.choices?.[0]?.message?.content;
 
       if (!content) return c.json({ error: 'Failed to generate report' }, 500);
+
+      // Clean markdown code blocks
+      content = content.replace(/```markdown\n?/g, '').replace(/```\n?/g, '').trim();
 
       return c.json({ report: content });
   } catch (error) {

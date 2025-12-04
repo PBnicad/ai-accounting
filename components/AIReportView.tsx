@@ -69,15 +69,15 @@ export const AIReportView: React.FC<Props> = ({ onBack }) => {
   return (
     <div className="pb-24 md:pb-8">
       {/* Header */}
-      <div className="bg-yellow-300 border-b-4 border-black p-6 sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
+      <div className="sticky top-0 z-10 mb-6 -mx-2 pt-2 px-2 bg-[#fffdf5]/80 backdrop-blur-sm">
+        <div className="bg-yellow-300 border-2 border-black rounded-xl p-4 shadow-[4px_4px_0px_0px_black] flex items-center justify-between">
           <button 
             onClick={onBack}
-            className="p-2 hover:bg-white/50 rounded-lg border-2 border-transparent hover:border-black transition-all"
+            className="p-2 hover:bg-white/50 rounded-lg border-2 border-transparent hover:border-black transition-all active:scale-95"
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <h1 className="text-2xl font-black flex items-center gap-2">
+          <h1 className="text-xl md:text-2xl font-black flex items-center gap-2">
             <Sparkles className="w-6 h-6" />
             AI 智能周报/月报
           </h1>
@@ -85,7 +85,7 @@ export const AIReportView: React.FC<Props> = ({ onBack }) => {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto p-6 space-y-6">
+      <div className="max-w-2xl mx-auto space-y-6">
         {/* Controls */}
         <div className="bg-white border-4 border-black rounded-xl p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           
