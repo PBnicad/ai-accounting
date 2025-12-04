@@ -88,26 +88,27 @@ export const TransactionList: React.FC<Props> = ({ transactions, onDelete, onEdi
               
               <div className="space-y-3">
                 {grouped[date].map(t => (
-                  <div key={t.id} className="group relative bg-white border-2 border-black rounded-xl p-4 shadow-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-1 flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-lg border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                  <div key={t.id} className="group relative bg-white border-2 border-black rounded-xl p-4 shadow-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:-translate-y-1 flex items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4 flex-1 min-w-0">
+                      <div className={`flex-shrink-0 w-12 h-12 rounded-lg border-2 border-black flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
                           t.type === 'INCOME' ? 'bg-cyan-100 text-cyan-700' : 'bg-orange-100 text-orange-700'
                         }`}>
                         {getCategoryIcon(t.category)}
                       </div>
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <p className="font-bold text-gray-900">{t.category}</p>
+                          <p className="font-bold text-gray-900 truncate">{t.category}</p>
                           {t.type === 'INCOME' ? (
-                             <span className="text-[10px] bg-cyan-100 border border-black px-1 rounded text-cyan-800 font-bold">收入</span>
+                             <span className="flex-shrink-0 text-[10px] bg-cyan-100 border border-black px-1 rounded text-cyan-800 font-bold">收入</span>
                           ) : null}
                         </div>
-                        <p className="text-sm text-gray-500 font-medium max-w-[150px] md:max-w-xs truncate flex items-center">
-                          <Tag className="w-3 h-3 mr-1 opacity-50"/> {t.description}
+                        <p className="text-sm text-gray-500 font-medium truncate flex items-center w-full">
+                          <Tag className="w-3 h-3 mr-1 opacity-50 flex-shrink-0"/> 
+                          <span className="truncate">{t.description}</span>
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 flex-shrink-0">
                       <span className={`font-black text-lg ${t.type === 'INCOME' ? 'text-cyan-600' : 'text-gray-900'}`}>
                         {t.type === 'INCOME' ? '+' : '-'}{formatCurrency(t.amount)}
                       </span>
