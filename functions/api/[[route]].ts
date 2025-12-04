@@ -421,24 +421,24 @@ api.post('/ai/report', async (c) => {
     .join(', ');
 
   const prompt = `
-    Role: Financial Advisor (AI 记账助手).
-    Task: Generate a ${type === 'weekly' ? 'Weekly' : 'Monthly'} Financial Report for the user.
-    Language: Chinese (Simplified).
-    Tone: Professional, encouraging, helpful, and slightly witty (Retro style).
+    角色: 专业的理财顾问 (AI 记账助手)。
+    任务: 为用户生成一份${type === 'weekly' ? '周' : '月'}度财务报告。
+    语言: 必须使用简体中文 (Simplified Chinese)。
+    语调: 专业、鼓励、乐于助人，带一点幽默感 (复古风格)。
 
-    Data:
-    - Period: ${startStr} to ${endStr}
-    - Total Income: ${totalIncome.toFixed(2)}
-    - Total Expense: ${totalExpense.toFixed(2)}
-    - Net Balance: ${balance.toFixed(2)}
-    - Top Expense Categories: ${topCategories || 'None'}
-    - Transaction Count: ${periodTransactions.length}
+    数据:
+    - 时间段: ${startStr} 至 ${endStr}
+    - 总收入: ${totalIncome.toFixed(2)}
+    - 总支出: ${totalExpense.toFixed(2)}
+    - 净结余: ${balance.toFixed(2)}
+    - 支出最高的类别: ${topCategories || '无'}
+    - 交易笔数: ${periodTransactions.length}
 
-    Requirements:
-    1. **Overview**: Briefly summarize the financial situation.
-    2. **Analysis**: Analyze the spending habits. Is the user spending too much on specific categories?
-    3. **Advice**: Give 3 specific, actionable tips based on the data to improve financial health.
-    4. **Formatting**: Use Markdown (bolding, lists) for readability. Do NOT output JSON. Output raw Markdown text.
+    要求:
+    1. **总览**: 简要总结财务状况。
+    2. **分析**: 分析消费习惯。用户是否在某些类别上花费过多？
+    3. **建议**: 基于数据给出3条具体、可执行的省钱或理财建议。
+    4. **格式**: 使用 Markdown (加粗, 列表) 以提高可读性。不要输出 JSON。直接输出 Markdown 文本。
   `;
 
   // Call AI
@@ -453,7 +453,7 @@ api.post('/ai/report', async (c) => {
         body: JSON.stringify({
           model: 'glm-4-flash',
           messages: [
-              { role: 'system', content: 'You are a helpful financial advisor.' },
+              { role: 'system', content: '你是一位专业的理财顾问。请始终使用简体中文回答。' },
               { role: 'user', content: prompt }
           ],
           temperature: 0.7,
