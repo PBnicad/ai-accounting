@@ -69,7 +69,7 @@ export const AIReportView: React.FC<Props> = ({ onBack }) => {
   return (
     <div className="pb-24 md:pb-8">
       {/* Header */}
-      <div className="sticky top-0 z-10 mb-6 -mx-2 pt-2 px-2 bg-[#fffdf5]/80 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 mb-6 -mx-4 pt-2 pb-4 px-4 bg-[#fffdf5]">
         <div className="bg-yellow-300 border-2 border-black rounded-xl p-4 shadow-[4px_4px_0px_0px_black] flex items-center justify-between">
           <button 
             onClick={onBack}
