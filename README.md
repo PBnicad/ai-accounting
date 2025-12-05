@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Tech Stack](https://img.shields.io/badge/stack-React%20%7C%20Hono%20%7C%20Cloudflare-orange.svg)
-[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PBnicad/ai-accounting)
+
 
 
 AI 驱动的智能记账助手，支持自然语言/图片记账、自动分类、图表分析，让每一分钱都清晰可见。
@@ -70,6 +70,7 @@ AI 驱动的智能记账助手，支持自然语言/图片记账、自动分类�
 
 ## 📦 部署 (Deployment)
 
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/PBnicad/ai-accounting)
 
 
 1. Fork 本仓库。
